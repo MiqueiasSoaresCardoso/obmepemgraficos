@@ -41,12 +41,18 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Erro ao buscar os dados:', error));
     }
 
-//SCRIPT PARA A EXIBIÇÃO DA COMPARAÇÃO ENTRE ESCOLAS PUBLICAS E PROVADAS DE UM DADO MUNICIPIO
+//SCRIPT PARA A EXIBIÇÃO DA COMPARAÇÃO ENTRE ESCOLAS PUBLICAS E PRIVADAS DE UM DADO MUNICIPIO
+
     function createDesempenhoPublicoPrivadoChart(municipio, edicao, nivel) {
-        fetch(`https://obmep-production.up.railway.app/api/comparar-desempenho-publico-privado?municipio=${municipio}&edicao=${edicao}&nivel=${nivel}`)
+        var edicaocorrigida = parseInt(edicao);
+
+        fetch(`https://obmep-production.up.railway.app/api/comparar-desempenho-publico-privado?municipio=${municipio}&edicao=${edicaocorrigida}&nivel=${nivel}`)
             .then(response => response.json())
             .then(data => {
                 const labels = ['Públicas', 'Privadas'];
+                const publicasData = data.escolas_publicas.map(escola => escola.nome); // Extrai os nomes das escolas públicas
+                const privadasData = data.escolas_privadas.map(escola => escola.nome); // Extrai os nomes das escolas privadas
+
                 const values = [
                     data.escolas_publicas.reduce((total, escola) => total + escola.total_premiacoes, 0),
                     data.escolas_privadas.reduce((total, escola) => total + escola.total_premiacoes, 0)
@@ -89,9 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`https://obmep-production.up.railway.app/api/comparar-desempenho?estado=${estado}&edicao=${edicao}`)
             .then(response => response.json())
             .then(data => {
-                const labels = data.escolas_federais.map((_, index) => `Escola ${index + 1}`);
-                const totalFederais = data.escolas_federais.map(escola => escola.total_premiacoes);
-                const totalEstaduais = data.escolas_estaduais.map(escola => escola.total_premiacoes);
+                // Extrair os totais de prêmios das três primeiras escolas federais e estaduais
+                const totalFederais = data.escolas_federais.slice(0, 10).map(escola => escola.total_premiacoes);
+                const totalEstaduais = data.escolas_estaduais.slice(0, 10).map(escola => escola.total_premiacoes);
 
                 const ctx = document.getElementById('compararDesempenho').getContext('2d');
 
@@ -100,27 +106,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.compararDesempenhoChart.destroy();
                 }
 
-                // Criar um novo gráfico de barras
+                // Criar um novo gráfico de pizza
                 window.compararDesempenhoChart = new Chart(ctx, {
-                    type: 'bar',
+                    type: 'pie',
                     data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: 'Escolas Federais',
-                                data: totalFederais,
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Escolas Estaduais',
-                                data: totalEstaduais,
-                                backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                                borderColor: 'rgba(255, 159, 64, 1)',
-                                borderWidth: 1
-                            }
-                        ]
+                        labels: ['Escolas Federais', 'Escolas Estaduais'],
+                        datasets: [{
+                            label: 'Desempenho por Tipo de Escola',
+                            data: [totalFederais.reduce((a, b) => a + b, 0), totalEstaduais.reduce((a, b) => a + b, 0)],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
                     },
                     options: {
                         scales: {
@@ -133,6 +136,8 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Erro ao buscar os dados:', error));
     }
+
+
 
     // Event listener para formulário de consulta de desempenho público vs privado
     document.getElementById('consultaForm').addEventListener('submit', function(event) {
@@ -225,16 +230,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // Criar gráfico de trajetória da escola selecionada
         createTrajetoriaEscolaChart(escola);
     });
-});
+})
+//INSTITUIÇÃO COM MAIOR DESTAQUE EM UM ESTADO
 document.addEventListener('DOMContentLoaded', function() {
     const parametersForm = document.getElementById('parametersForm');
     const schoolIcon = document.getElementById('schoolIcon');
     const schoolName = document.getElementById('schoolName');
+    const estadoSelect = document.getElementById('estadoTJ');
+
 
     parametersForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const estado = document.getElementById('estadoTJ').value;
+        const estado = estadoSelect.value;
         const nivel = document.getElementById('nivelTJ').value;
         const edicao = document.getElementById('edicaoTJ').value;
 
@@ -255,8 +263,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     });
 });
-//ESTADUAL VS MUNICIPAL NIVEL 02
 
+
+//ESTADUAL VS MUNICIPAL NIVEL 02
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('formCompararDesempenho');
 
@@ -270,11 +279,9 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`https://obmep-production.up.railway.app/api/comparar-desempenho-municipal-estadual?estado=${estado}&nivel=${nivel}&edicao=${edicao}`)
             .then(response => response.json())
             .then(data => {
-                // Limitar para exibir apenas cinco escolas municipais e cinco estaduais
-                const labelsMunicipais = data.escolas_municipais.slice(0, 5).map(escola => escola.instituicao);
-                const valoresMunicipais = data.escolas_municipais.slice(0, 5).map(escola => escola.total_premiacoes);
-                const labelsEstaduais = data.escolas_estaduais.slice(0, 5).map(escola => escola.instituicao);
-                const valoresEstaduais = data.escolas_estaduais.slice(0, 5).map(escola => escola.total_premiacoes);
+                // Extrair totais de prêmios para escolas municipais e estaduais
+                const valoresMunicipais = data.escolas_municipais.reduce((acc, escola) => acc + escola.total_premiacoes, 0);
+                const valoresEstaduais = data.escolas_estaduais.reduce((acc, escola) => acc + escola.total_premiacoes, 0);
 
                 const ctx = document.getElementById('chart').getContext('2d');
 
@@ -283,20 +290,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 window.compararChart = new Chart(ctx, {
-                    type: 'bar',
+                    type: 'pie',
                     data: {
-                        labels: [...labelsMunicipais, ...labelsEstaduais],
+                        labels: ['Escolas Municipais', 'Escolas Estaduais'],
                         datasets: [{
-                            label: 'Escolas Municipais',
-                            data: valoresMunicipais,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }, {
-                            label: 'Escolas Estaduais',
-                            data: valoresEstaduais,
-                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                            borderColor: 'rgba(255, 159, 64, 1)',
+                            label: 'Desempenho por Tipo de Escola',
+                            data: [valoresMunicipais, valoresEstaduais],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
                             borderWidth: 1
                         }]
                     },
@@ -305,11 +312,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             legend: {
                                 display: false  // Oculta o legend (rótulo) no gráfico
                             }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
                         }
                     }
                 });
@@ -317,6 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Erro ao buscar dados:', error));
     });
 });
+
 
 //ENDPOINT - Exibir trajetória de um estado ao longo das edições
 document.addEventListener('DOMContentLoaded', function() {
@@ -567,7 +570,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.municipio.forEach(m => {
                     const option = document.createElement('option');
                     option.value = m._id;
-                    option.textContent = m._id;
+                    option.text = m._id;
                     municipioSelect.appendChild(option);
                 });
             })
@@ -589,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Evento de submissão do formulário
     form.addEventListener('submit', function(event) {
-        event.preventDefault();
+        event.preventDefault(); // Impede o comportamento padrão de enviar o formulário
         const estado = estadoSelect.value;
         const municipio = municipioSelect.value;
         const nivel = nivelSelect.value;

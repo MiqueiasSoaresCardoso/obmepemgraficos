@@ -38,6 +38,8 @@
     </section>
     <section>
         <h2>Desempenho Público vs Privado</h2>
+        <p>Insira abaixo o municipio desejado, a edição e o nivel de prova, para obter a comparaçaõ de desempenho entre as escolas
+        publicas de privadas de uma cidade especifica</p>
         <form id="consultaForm">
             <label for="municipio">Município:</label>
             <input type="text" id="municipio" name="municipio" required>
@@ -51,33 +53,99 @@
     </section>
     <section>
         <h1>Comparar Desempenho entre Escola Federais e Estaduais</h1>
+        <p> Essa consulta considera as 10 primeiras escolas Federais e Municipais para a comparação, ou seja foi comparado o desempenho das
+        dez melhores escolas tantos estaduais, quanto municipais de acordo com o estado e o ano especifico</p>
         <form id="consultaFE">
             <label for="estado">Estado:</label>
-            <input type="text" id="estado" name="estado" required>
+            <select id="estado">
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+            </select>
             <label for="edicao">Edição:</label>
-            <input type="text" id="edicaoFE" name="edicao" required>
+            <input type="number" id="edicaoFE" name="edicao" required>
             <button type="submit">Consultar</button>
         </form>
         <canvas id="compararDesempenho" width="400" height="200"></canvas>
         <script src="script.js"></script>
     </section>
     <section>
-        <h1>Instituição com Maior destaque em um Estado Especifico</h1>
-        <div class="icon-container">
-            <img id="schoolIcon" src="school-icon.png" alt="School Icon">
-            <p id="schoolName">Nome da Escola</p>
-        </div>
+        <h1>Instituição com maior destaque em um Estado especifico<h1>
         <form id="parametersForm">
-            <label for="estado">Estado:</label>
-            <input type="text" id="estadoTJ" name="estado" value="SP">
-            <label for="nivel">Nível:</label>
-            <input type="number" id="nivelTJ" name="nivel" value="3">
-            <label for="edicao">Edição:</label>
-            <input type="number" id="edicaoTJ" name="edicao" value="2023">
+            <label for="estadoTJ">Estado:</label>
+            <select id="estadoTJ">
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+                <!-- Opções de estados serão populadas dinamicamente -->
+            </select>
+
+            <label for="nivelTJ">Nível:</label>
+            <select id="nivelTJ">
+                <option value="1">Nível 1</option>
+                <option value="2">Nível 2</option>
+                <option value="3">Nível 3</option>
+            </select>
+
+            <label for="edicaoTJ">Edição:</label>
+            <input type="text" id="edicaoTJ" name="edicao" value="2023">
+
             <button type="submit">Buscar Instituição</button>
         </form>
-        <!-- Canvas para o gráfico da instituição destacada -->
-        <canvas id="instituicaoDestacada"></canvas>
+    </section>
+    <section>
+        <img src="https://via.placeholder.com/50" alt="Ícone da Escola" id="schoolIcon">
+        <div>
+            <h3 id="schoolName">Nome da Instituição</h3>
+        </div>
     </section>
     //BUSCAR A INSTITUIÇÃO COM MAIOR DESTAQUE EM UM MUNICIPIO ESPECIFICO
     <section>
@@ -151,9 +219,33 @@
         <form id="formCompararDesempenho">
             <label for="estado">Estado:</label>
             <select id="estadoDME">
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
                 <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
                 <option value="SP">São Paulo</option>
-                <option value="PI">Paraíba</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
                 <!-- Adicionar outros estados conforme necessário -->
             </select>
 
@@ -185,6 +277,30 @@
                 <option value="AC">Acre</option>
                 <option value="AL">Alagoas</option>
                 <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
                 <!-- Adicione todos os estados conforme necessário -->
             </select>
             <button type="submit">Visualizar Trajetória</button>
@@ -213,8 +329,33 @@
             <label for="estadoTJE">Estado:</label>
             <select id="estadoTJE">
                 <!-- Opções de estados podem ser populadas dinamicamente ou pré-carregadas -->
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
                 <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
                 <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
                 <!-- Adicione mais opções conforme necessário -->
             </select>
 
