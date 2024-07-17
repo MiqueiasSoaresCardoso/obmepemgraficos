@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obmep em Graficos</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header>
+    <h1>OBMEP EM GRÁFICOS</h1>
+</header>
+<main>
+    <section>
+        <section id="totalPremiacoes">
+            <div class="premiacao-box">
+                <h3>Total Geral</h3>
+                <p id="totalGeral">0</p>
+            </div>
+            <div class="premiacao-box">
+                <h3>Ouro</h3>
+                <p id="totalOuro">0</p>
+            </div>
+            <div class="premiacao-box">
+                <h3>Prata</h3>
+                <p id="totalPrata">0</p>
+            </div>
+            <div class="premiacao-box">
+                <h3>Bronze</h3>
+                <p id="totalBronze">0</p>
+            </div>
+        </section>
+    </section>
+    <section>
+        <h2>Ranking Geral por Estados</h2>
+        <canvas id="rankingEstados"></canvas>
+    </section>
+    <section>
+        <h2>Desempenho Público vs Privado</h2>
+        <form id="consultaForm">
+            <label for="municipio">Município:</label>
+            <input type="text" id="municipio" name="municipio" required>
+            <label for="edicao">Edição:</label>
+            <input type="number" id="edicao" name="edicao" required>
+            <label for="nivel">Nível:</label>
+            <input type="number" id="nivel" name="nivel" required>
+            <button type="submit">Consultar</button>
+        </form>
+        <canvas id="desempenhoPublicoPrivado"></canvas>
+    </section>
+    <section>
+        <h1>Comparar Desempenho entre Escola Federais e Estaduais</h1>
+        <form id="consultaFE">
+            <label for="estado">Estado:</label>
+            <input type="text" id="estado" name="estado" required>
+            <label for="edicao">Edição:</label>
+            <input type="text" id="edicaoFE" name="edicao" required>
+            <button type="submit">Consultar</button>
+        </form>
+        <canvas id="compararDesempenho" width="400" height="200"></canvas>
+        <script src="script.js"></script>
+    </section>
+    <section>
+        <h1>Instituição com Maior destaque em um Estado Especifico</h1>
+        <div class="icon-container">
+            <img id="schoolIcon" src="school-icon.png" alt="School Icon">
+            <p id="schoolName">Nome da Escola</p>
+        </div>
+        <form id="parametersForm">
+            <label for="estado">Estado:</label>
+            <input type="text" id="estadoTJ" name="estado" value="SP">
+            <label for="nivel">Nível:</label>
+            <input type="number" id="nivelTJ" name="nivel" value="3">
+            <label for="edicao">Edição:</label>
+            <input type="number" id="edicaoTJ" name="edicao" value="2023">
+            <button type="submit">Buscar Instituição</button>
+        </form>
+        <!-- Canvas para o gráfico da instituição destacada -->
+        <canvas id="instituicaoDestacada"></canvas>
+    </section>
+    //BUSCAR A INSTITUIÇÃO COM MAIOR DESTAQUE EM UM MUNICIPIO ESPECIFICO
+    <section>
+        <form id="formInstituicaoDestacadaMM">
+            <label for="estadoMM">Estado:</label>
+            <select id="estadoMM">
+                <!-- Todos os estados brasileiros -->
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+            </select>
+
+            <label for="municipioMM">Município:</label>
+            <select id="municipioMM">
+                <!-- Opções de municípios serão populadas dinamicamente -->
+            </select>
+
+            <label for="nivelMM">Nível:</label>
+            <select id="nivelMM">
+                <!-- Opções de níveis -->
+                <option value="1">Nível 1</option>
+                <option value="2">Nível 2</option>
+                <option value="3">Nível 3</option>
+            </select>
+
+            <label for="edicaoMM">Edição:</label>
+            <input type="text" id="edicaoMM" name="edicao" value="2023">
+
+            <button type="submit">Buscar Instituição</button>
+        </form>
+    </section>
+
+    <section id="instituicaoDestacadaMM">
+        <img src="https://via.placeholder.com/50" alt="Ícone da Escola" id="iconeInstituicao">
+        <div>
+            <h3 id="nomeInstituicaoMM">Instituição</h3>
+            <p id="totalPremiacoesMM">Total de Premiações: 0</p>
+        </div>
+    </section>
+
+
+    //
+    <section>
+        <h1>Comparar Desempenho entre Escolas Municipais e Estaduais</h1>
+        <P>Esse gráfico demonstra a comparação entre escolas estaduais e municipais de um determinado estado, considerando o nivel
+            da prova e a edição selecionada, com isso é exposto lado a lado as cinco melhores instituições que ocuparam os cinco primeiros lugares  </P>
+        <form id="formCompararDesempenho">
+            <label for="estado">Estado:</label>
+            <select id="estadoDME">
+                <option value="PB">Paraíba</option>
+                <option value="SP">São Paulo</option>
+                <option value="PI">Paraíba</option>
+                <!-- Adicionar outros estados conforme necessário -->
+            </select>
+
+            <label for="nivel">Nível:</label>
+            <select id="nivelDME">
+                <option value="1">Nível 1</option>
+                <option value="2">Nível 2</option>
+                <!-- Apenas níveis 1 e 2 conforme especificado -->
+            </select>
+
+            <label for="edicao">Edição:</label>
+            <input type="number" id="edicaoDME" value="2023" min="2005" max="2023">
+
+            <button type="submit">Comparar Desempenho</button>
+        </form>
+
+        <div>
+            <h2>Resultados</h2>
+            <div id="chartContainer" style="height: 400px; width: 100%;">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h1>Selecione o Estado para Visualizar a Trajetória de Prêmios</h1>
+        <form id="formTrajetoriaEstado">
+            <label for="estado">Estado:</label>
+            <select id="estadoS" name="estado">
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <!-- Adicione todos os estados conforme necessário -->
+            </select>
+            <button type="submit">Visualizar Trajetória</button>
+        </form>
+
+        <div>
+            <canvas id="trajetoriaEstado" width="800" height="400"></canvas>
+        </div>
+    </section>
+    <section>
+        <h1>Selecione um Município para Ver sua Trajetória de Prêmios</h1>
+        <form id="formTrajetoriaMunicipio">
+            <label for="municipio">Município:</label>
+            <input type="text" id="municipioTJ" name="municipio" value="RIO DE JANEIRO">
+            <button type="submit">Visualizar Trajetória</button>
+        </form>
+
+        <div>
+            <canvas id="trajetoriaMunicipio" width="800" height="400"></canvas>
+        </div>
+    </section>
+
+    <section>
+        <h1>Selecione uma Escola para Ver sua Trajetória de Prêmios</h1>
+        <form id="formTrajetoriaEscola">
+            <label for="estadoTJE">Estado:</label>
+            <select id="estadoTJE">
+                <!-- Opções de estados podem ser populadas dinamicamente ou pré-carregadas -->
+                <option value="PB">Paraíba</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <!-- Adicione mais opções conforme necessário -->
+            </select>
+
+            <label for="municipioTJE">Município:</label>
+            <select id="municipioTJE">
+                <!-- Opções de municípios serão populadas dinamicamente -->
+            </select>
+
+            <label for="escolaTJE">Escola:</label>
+            <select id="escolaTJE">
+                <!-- Opções de escolas serão populadas dinamicamente -->
+            </select>
+
+            <button type="submit">Buscar Trajetória</button>
+        </form>
+
+        <canvas id="trajetoriaEscola"></canvas>
+    </section>
+
+
+    <!-- Adicione mais seções conforme necessário -->
+</main>
+<script src="script.js"></script>
+</body>
+</html>
