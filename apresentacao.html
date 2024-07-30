@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obmep em Graficos</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<header>
+    <h1>OBMEP EM GRÁFICOS</h1>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            text-align: justify;
+        }
+
+        ul {
+            margin: 10px 0;
+            padding: 0 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        p {
+            text-indent: 2em; /* Indentação de 2em no início de cada parágrafo */
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+    </style>
+</header>
+<main>
+    <center>
+        <section>
+            <div class="image-container">
+                <img src="img/logo-ifpb.png" width="160" height="121" alt="Logo IFPB">
+                <img src="img/logo-obmepemgraficos.png" width="150" height="121" alt="Logo OBMEP">
+                <img src="img/logo-ppgti.png" width="190" height="141" alt="Logo PPGTI">
+            </div>
+        </section>
+    </center>
+
+    <section>
+        <h1>Descrição da Aplicação</h1>
+        <p>A aplicação foi desenvolvida para ser uma interface intuitiva e rica em funcionalidades que permitem aos usuários analisar detalhadamente o desempenho dos alunos na Olimpíada Brasileira de Matemática das Escolas Públicas (OBMEP). Com dados extraídos por meio de um Scrapping do <a href="http://www.obmep.org.br/premiados.htm">site da OBMEP</a>, a aplicação oferece um dashboard dinâmico que permitem a visualização de dados através de gráficos com atualizações frequentes, proporcionando uma melhor experiência para os usuários. Além disso, conta com filtros avançados que permitirão ao usuário as seguintes possibilidades:</p>
+        <ul>
+            <li>
+                Exibir Ranking por estados, mostrando todas as premiações;
+            </li>
+            <li>
+                Ao selecionar um Estado, Município ou Instituição, exibir sua trajetória ao longo das participações nas edições;
+            </li>
+            <li>
+                Filtragem de dados por diferentes instituições de ensino (públicas e privadas), regiões geográficas (como estados e municípios), ano de participação na OBMEP e níveis de ensino (fundamental e médio);
+            </li>
+            <li>
+                Visualizar qual instituição mais se destacou nas premiações, dentro de um determinado estado ou município;
+            </li>
+            <li>
+                Exibir a comparação de desempenho entre escolas Federais e Estaduais;
+            </li>
+            <li>
+                Exibir a comparação de desempenho entre escolas Municipais e Estaduais;
+            </li>
+            <li>
+                Desempenho de município e instituições ao longo dos anos, identificando tendências e padrões;
+            </li>
+        </ul>
+        <p>Além das funcionalidades descritas acima, a aplicação consome dados de uma API Python, garantindo que todas as informações sejam precisas e atualizadas, e possibilita a integração com outras ferramentas e APIs para ampliar as funcionalidades da aplicação. Essas funcionalidades visam proporcionar uma experiência rica e informativa para os usuários, permitindo uma análise detalhada e personalizada dos dados da OBMEP.</p>
+        <p>Ao combinar visualizações interativas, filtros avançados e um conjunto robusto de dados, a aplicação tem por intuito ser uma ferramenta poderosa para pesquisadores, educadores e administradores da educação.</p>
+
+    </section>
+
+
+    <section>
+        <div class="image-container">
+            <center><img src="img/impactospositivos.png"></center>
+        </div>
+    </section>
+
+
+    <center><section>
+        <div class="container">
+            <h1>Visite nossa aplicação e deixe seu comentário aqui</h1>
+            <form id="suggestionForm" action="https://formspree.io/f/xeojakon" method="POST">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" placeholder="Henrique Queiroz" required>
+
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="_replyto" placeholder="queiroz.henrique@academico.ifpb.edu.br" required>
+
+                <label for="suggestion">Comentário:</label>
+                <textarea id="suggestion" name="message" rows="4" cols="60" required></textarea>
+
+                <input type="hidden" name="_cc" value="queiroz.henrique@academico.ifpb.edu.br">
+                <button type="submit" value="Send">Enviar</button>
+            </form>
+        </div>
+    </section></center>
+
+
+    <section id="totalPremiacoes">
+        <a href="resultados.html" class="frame-link">
+            <div class="frame">
+                <div class="premiacao-box2">
+                    <h3>INÍCIO</h3>
+                </div>
+            </div>
+        </a>
+
+        <a href="resultados.html" class="frame-link">
+            <div class="frame">
+                <div class="premiacao-box2">
+                    <h3>RESULTADOS</h3>
+                </div>
+            </div>
+        </a>
+
+    </section>
+
+
+</main>
+<script src="script.js"></script>
+
+<script>
+    document.getElementById('suggestionForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const suggestion = document.getElementById('suggestion').value;
+
+        fetch('/send-suggestion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, suggestion })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Comentário enviado com sucesso!');
+                } else {
+                    alert('Falha ao enviar comentário. Tente novamente.');
+                }
+            });
+    });
+</script>
+
+<footer>
+    <center>
+        <p>&copy; 2024 Frederico, José Henrique, Miqueias, Wallennon. Todos os direitos reservados.</p>
+        <p>Programa de Pós-Graduação em TI, IFPB.</p>
+    </center>
+</footer>
+</body>
+
+
+</html>
+
+
+
+
+
