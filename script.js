@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //SCRIPT PARA A EXIBIÇÃO DA COMPARAÇÃO ENTRE ESCOLAS PUBLICAS E PROVADAS DE UM DADO MUNICIPIO
     function createDesempenhoPublicoPrivadoChart(municipio, edicao, nivel) {
-        fetch(`https://obmep-production.up.railway.app/api/comparar-desempenho-publico-privado?municipio=${municipio}&edicao=${edicao}&nivel=${nivel}`)
+        fetch(`https://obmep.onrender.com/api/comparar-desempenho-publico-privado?municipio=${municipio}&edicao=${edicao}&nivel=${nivel}`)
             .then(response => response.json())
             .then(data => {
                 const labels = ['Públicas', 'Privadas'];
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para criar gráfico de comparação entre escolas federais e estaduais
     function createCompararDesempenhoChart(estado, edicao) {
-        fetch(`https://obmep-production.up.railway.app/api/comparar-desempenho?estado=${estado}&edicao=${edicao}`)
+        fetch(`https://obmep.onrender.com/api/comparar-desempenho?estado=${estado}&edicao=${edicao}`)
             .then(response => response.json())
             .then(data => {
                 const labels = data.escolas_federais.map((_, index) => `Escola ${index + 1}`);
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Função para criar gráfico de trajetória da escola
     function createTrajetoriaEscolaChart(escola) {
-        fetch(`https://obmep-production.up.railway.app/api/trajetoria-escola?escola=${escola}`)
+        fetch(`https://obmep.onrender.com/api/trajetoria-escola?escola=${escola}`)
             .then(response => response.json())
             .then(data => {
                 const labels = data.trajetoria.map(item => item.edicao);
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const nivel = document.getElementById('nivelTJ').value;
         const edicao = document.getElementById('edicaoTJ').value;
 
-        fetch(`https://obmep-production.up.railway.app/api/buscarinstituicaoestado?estado=${estado}&nivel=${nivel}&edicao=${edicao}`)
+        fetch(`https://obmep.onrender.com/api/buscarinstituicaoestado?estado=${estado}&nivel=${nivel}&edicao=${edicao}`)
             .then(response => response.json())
             .then(data => {
                 if (data.instituicao) {
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const nivel = document.getElementById('nivelDME').value;
         const edicao = document.getElementById('edicaoDME').value;
 
-        fetch(`https://obmep-production.up.railway.app/api/comparar-desempenho-municipal-estadual?estado=${estado}&nivel=${nivel}&edicao=${edicao}`)
+        fetch(`https://obmep.onrender.com/api/comparar-desempenho-municipal-estadual?estado=${estado}&nivel=${nivel}&edicao=${edicao}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const estado = document.getElementById('estadoS').value;
 
-        fetch(`https://obmep-production.up.railway.app/api/trajetoria-estado?estado=${estado}`)
+        fetch(`https://obmep.onrender.com/api/trajetoria-estado?estado=${estado}`)
             .then(response => response.json())
             .then(data => {
                 const labels = data.trajetoria.map(item => item.edicao);
@@ -430,7 +430,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const municipiot = document.getElementById('municipioTJ').value;
         const municipio = municipiot.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s]/gi, '');
 
-        fetch(`https://obmep-production.up.railway.app/api/trajetoria-municipio?municipio=${municipio}`)
+        fetch(`https://obmep.onrender.com/api/trajetoria-municipio?municipio=${municipio}`)
             .then(response => response.json())
             .then(data => {
                 const labels = data.trajetoria.map(item => item.edicao);
@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para carregar os municípios com base no estado selecionado
     function carregarMunicipios(estado) {
-        fetch(`https://obmep-production.up.railway.app/api/listar-municipios?estado=${estado}`)
+        fetch(`https://obmep.onrender.com/api/listar-municipios?estado=${estado}`)
             .then(response => response.json())
             .then(data => {
                 // Limpa opções anteriores
@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para carregar as escolas com base no estado e município selecionados
     function carregarEscolas(estado, municipio) {
-        fetch(`https://obmep-production.up.railway.app/api/listar-escolas?estado=${estado}&municipio=${municipio}`)
+        fetch(`https://obmep.onrender.com/api/listar-escolas?estado=${estado}&municipio=${municipio}`)
             .then(response => response.json())
             .then(data => {
                 // Limpa opções anteriores
@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        fetch(`https://obmep-production.up.railway.app/api/trajetoria-escola?escola=${escola}`)
+        fetch(`https://obmep.onrender.com/api/trajetoria-escola?escola=${escola}`)
             .then(response => response.json())
             .then(data => {
                 const labels = data.trajetoria.map(item => item.edicao);
@@ -587,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para carregar os totais de premiações
     function carregarTotalPremiacoes() {
-        fetch('https://obmep-production.up.railway.app/api/listar-total-premiacoes')
+        fetch('https://obmep.onrender.com/api/listar-total-premiacoes')
             .then(response => response.json())
             .then(data => {
                 totalGeralElement.textContent = data.total_geral;
@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Função para carregar os municípios com base no estado selecionado
     estadoSelect.addEventListener('change', function() {
         const estado = estadoSelect.value;
-        fetch(`https://obmep-production.up.railway.app/api/listar-municipios?estado=${estado}`)
+        fetch(`https://obmep.onrender.com/api/listar-municipios?estado=${estado}`)
             .then(response => response.json())
             .then(data => {
                 municipioSelect.innerHTML = '';
@@ -634,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para buscar a instituição mais destacada em um município
     function buscarInstituicaoMaisDestacada(municipio, nivel, edicao) {
-        fetch(`https://obmep-production.up.railway.app/api/buscarinstituicaomunicipio?municipio=${municipio}&nivel=${nivel}&edicao=${edicao}`)
+        fetch(`https://obmep.onrender.com/api/buscarinstituicaomunicipio?municipio=${municipio}&nivel=${nivel}&edicao=${edicao}`)
             .then(response => response.json())
             .then(data => {
                 nomeInstituicaoElement.textContent = data.instituicao || 'Nenhuma instituição encontrada';
