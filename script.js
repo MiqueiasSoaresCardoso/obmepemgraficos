@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Função para criar gráfico de ranking geral de estados
     function createRankingGeralChart() {
-        fetch('https://obmep-production.up.railway.app/api/ranking-geral-estados')
+        fetch('https://obmep.onrender.com/api/ranking-geral-estados')
             .then(response => response.json())
             .then(data => {
                 const labels = data.ranking.map(item => item.estado);
